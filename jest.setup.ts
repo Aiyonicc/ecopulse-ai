@@ -3,6 +3,7 @@ import "@testing-library/jest-dom";
 
 // Mock canvas API for components that render canvas-based assets (like CarbonCalculator)
 if (typeof window !== "undefined") {
+  window.HTMLElement.prototype.scrollIntoView = jest.fn();
   HTMLCanvasElement.prototype.getContext = jest.fn().mockReturnValue({
     clearRect: jest.fn(),
     beginPath: jest.fn(),

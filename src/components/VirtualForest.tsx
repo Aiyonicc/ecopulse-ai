@@ -269,7 +269,8 @@ export default function VirtualForest() {
                 <span className="text-sm text-gray-300">Time Cycle</span>
                 <button
                   onClick={() => setIsNight(!isNight)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-primary/30 text-xs font-semibold text-white transition-all cursor-pointer"
+                  aria-label={isNight ? "Switch to Day Mode" : "Switch to Night Mode"}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-primary/30 text-xs font-semibold text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
                 >
                   {isNight ? (
                     <>
@@ -288,7 +289,8 @@ export default function VirtualForest() {
                 <span className="text-sm text-gray-300">Climate Weather</span>
                 <button
                   onClick={() => setIsRaining(!isRaining)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+                  aria-label={isRaining ? "Change weather to Sunny" : "Change weather to Raining"}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary ${
                     isRaining
                       ? "bg-sky-500/20 border-sky-400/40 text-sky-300"
                       : "bg-white/5 border-white/10 text-white"
@@ -306,7 +308,8 @@ export default function VirtualForest() {
                     <button
                       key={season}
                       onClick={() => setActiveSeason(season)}
-                      className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${
+                      aria-label={`Set season to ${season}`}
+                      className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary ${
                         activeSeason === season
                           ? "bg-emerald-primary/20 border-emerald-primary text-emerald-primary"
                           : "bg-white/3 border-white/5 text-gray-400 hover:text-white"
@@ -322,7 +325,8 @@ export default function VirtualForest() {
               <div className="border-t border-white/5 pt-6 flex flex-col gap-3">
                 <button
                   onClick={handlePlantTree}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-primary to-teal-primary text-forest-dark font-bold text-sm hover:brightness-110 shadow-lg shadow-emerald-primary/10 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  aria-label="Plant offset tree"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-primary to-teal-primary text-forest-dark font-bold text-sm hover:brightness-110 shadow-lg shadow-emerald-primary/10 transition-all flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
                 >
                   <TreePine className="w-4 h-4" /> Plant Offset Tree
                 </button>
@@ -359,7 +363,14 @@ export default function VirtualForest() {
           <div className="lg:col-span-8 relative">
             <div className="glass-card overflow-hidden w-full h-[360px] relative">
               {/* Main Background Canvas */}
-              <canvas ref={forestCanvasRef} width="600" height="360" className="absolute top-0 left-0 w-full h-full block" />
+              <canvas 
+                ref={forestCanvasRef} 
+                width="600" 
+                height="360" 
+                className="absolute top-0 left-0 w-full h-full block" 
+                role="img"
+                aria-label="Ecosystem canvas depicting your virtual forest, reflecting weather, seasons, and day/night cycles based on carbon offset progress."
+              />
 
               {/* Interactive Vector Trees Overlaid on top of canvas for clickable/hoverable premium CSS anims */}
               <div className="absolute inset-0 pointer-events-none">
@@ -369,7 +380,8 @@ export default function VirtualForest() {
                     <button
                       key={tree.id}
                       onClick={() => setSelectedTree(tree)}
-                      className="absolute group pointer-events-auto cursor-pointer"
+                      className="absolute group pointer-events-auto cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary rounded-full p-1"
+                      aria-label={`Inspect ${tree.type} tree planted on ${tree.plantedDate} offsetting ${tree.offset} kg CO2 per year`}
                       style={{
                         left: `${(tree.x / 600) * 100}%`,
                         top: `${(tree.y / 360) * 100}%`,

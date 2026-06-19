@@ -103,7 +103,8 @@ export default function Leaderboard() {
             <button
               key={scope}
               onClick={() => setFilterScope(scope)}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-all flex items-center gap-1.5 cursor-pointer ${
+              aria-label={`Filter leaderboard by ${scope}`}
+              className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-all flex items-center gap-1.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary ${
                 filterScope === scope
                   ? "bg-emerald-primary text-forest-dark border-emerald-primary shadow-lg shadow-emerald-primary/20"
                   : "bg-white/5 border-white/10 text-gray-400 hover:text-white"
@@ -190,7 +191,8 @@ export default function Leaderboard() {
             <div className="flex items-center justify-center mt-6 pt-4 border-t border-white/5">
               <button
                 onClick={handleBumpRank}
-                className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-primary/40 hover:bg-white/8 text-xs font-semibold text-gray-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
+                aria-label="Improve my rank by simulating carbon footprint reduction"
+                className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-primary/40 hover:bg-white/8 text-xs font-semibold text-gray-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
               >
                 <ArrowUp className="w-3.5 h-3.5 text-emerald-primary animate-bounce" />
                 Improve My Rank (Reduce Carbon)
