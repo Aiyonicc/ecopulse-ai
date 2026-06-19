@@ -21,7 +21,6 @@ interface CarbonCalculatorProps {
 export default function CarbonCalculator({ onScoreChange, onXPChange }: CarbonCalculatorProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [currentScore, setCurrentScore] = useState(0);
   const treeCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const questions: Question[] = [
@@ -111,17 +110,19 @@ export default function CarbonCalculator({ onScoreChange, onXPChange }: CarbonCa
     },
   ];
 
-  // Calculate real-time score based on answers
-  useEffect(() => {
+  // Calculate real-time score dynamically based on answers state
+  const currentScore = Object.keys(answers).length === 0 ? 0 : (() => {
     let scoreAcc = 0;
     questions.forEach((q) => {
       scoreAcc += answers[q.id] || 0;
     });
-    // Cap score at 100 for user visualization scale
-    const normalized = Math.min(100, Math.round((scoreAcc / 220) * 100));
-    setCurrentScore(normalized);
-    onScoreChange(normalized);
-  }, [answers]);
+    return Math.min(100, Math.round((scoreAcc / 220) * 100));
+  })();
+
+  // Sync carbon score changes to parent component
+  useEffect(() => {
+    onScoreChange(currentScore);
+  }, [currentScore, onScoreChange]);
 
   // Canvas drawing loop for the Tree
   useEffect(() => {
@@ -244,8 +245,6 @@ export default function CarbonCalculator({ onScoreChange, onXPChange }: CarbonCa
   const handleReset = () => {
     setAnswers({});
     setCurrentStep(0);
-    setCurrentScore(0);
-    onScoreChange(0);
   };
 
   const currentQ = questions[currentStep];
@@ -315,14 +314,20 @@ export default function CarbonCalculator({ onScoreChange, onXPChange }: CarbonCa
                   </h3>
 
                   {/* Options */}
-                  <div className="flex flex-col gap-3 mt-2">
+                  <div 
+                    className="flex flex-col gap-3 mt-2"
+                    role="radiogroup"
+                    aria-label={currentQ.question}
+                  >
                     {currentQ.options.map((opt) => {
                       const isSelected = selectedValue === opt.value;
                       return (
                         <button
                           key={opt.label}
                           onClick={() => handleSelectOption(opt.value)}
-                          className={`w-full text-left p-4 rounded-xl border transition-all duration-300 flex justify-between items-center cursor-pointer ${
+                          role="radio"
+                          aria-checked={isSelected}
+                          className={`w-full text-left p-4 rounded-xl border transition-all duration-300 flex justify-between items-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary ${
                             isSelected
                               ? "bg-emerald-primary/10 border-emerald-primary shadow-[0_0_15px_rgba(16,185,129,0.1)]"
                               : "bg-white/5 border-white/10 hover:bg-white/8 hover:border-white/15"
@@ -351,7 +356,8 @@ export default function CarbonCalculator({ onScoreChange, onXPChange }: CarbonCa
                 <button
                   onClick={handlePrev}
                   disabled={currentStep === 0}
-                  className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors flex items-center gap-1.5 disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+                  className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors flex items-center gap-1.5 disabled:opacity-30 disabled:pointer-events-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary rounded-lg"
+                  aria-label="Go back to the previous question"
                 >
                   <ChevronLeft className="w-4 h-4" /> Back
                 </button>
@@ -360,7 +366,8 @@ export default function CarbonCalculator({ onScoreChange, onXPChange }: CarbonCa
                   {selectedValue !== undefined && (
                     <button
                       onClick={handleNext}
-                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-primary to-teal-primary text-forest-dark font-semibold text-sm hover:brightness-110 shadow-lg shadow-emerald-primary/15 transition-all flex items-center gap-1 cursor-pointer"
+                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-primary to-teal-primary text-forest-dark font-semibold text-sm hover:brightness-110 shadow-lg shadow-emerald-primary/15 transition-all flex items-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
+                      aria-label={currentStep === questions.length - 1 ? "Complete footprint calculations" : "Continue to the next question"}
                     >
                       {currentStep === questions.length - 1 ? "Complete Impact" : "Continue"}
                       <ChevronRight className="w-4 h-4" />
@@ -382,10 +389,22 @@ export default function CarbonCalculator({ onScoreChange, onXPChange }: CarbonCa
 
               {/* Canvas Growth Area */}
               <div className="relative w-[280px] h-[320px] rounded-2xl bg-black/20 border border-white/5 overflow-hidden flex items-center justify-center">
-                <canvas ref={treeCanvasRef} className="block" />
+                <canvas 
+                  ref={treeCanvasRef} 
+                  className="block" 
+                  role="img"
+                  aria-label="Visual eco-tree representing your carbon footprint. The tree grows green and full when your score is low, and turns yellow or dries up when your carbon footprint is high."
+                />
 
                 {/* Score Progress Ring Overlaid in Bottom Corner */}
-                <div className="absolute bottom-4 right-4 bg-forest-dark/90 border border-white/10 backdrop-blur-md px-3 py-2 rounded-2xl flex items-center gap-2 shadow-xl">
+                <div 
+                  className="absolute bottom-4 right-4 bg-forest-dark/90 border border-white/10 backdrop-blur-md px-3 py-2 rounded-2xl flex items-center gap-2 shadow-xl"
+                  role="progressbar"
+                  aria-valuenow={currentScore}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-label="Calculator completion score"
+                >
                   {/* Small progress circle */}
                   <svg className="w-9 h-9 transform -rotate-90">
                     <circle cx="18" cy="18" r="14" className="stroke-white/10 fill-none" strokeWidth="2.5" />
@@ -422,7 +441,8 @@ export default function CarbonCalculator({ onScoreChange, onXPChange }: CarbonCa
               {Object.keys(answers).length > 0 && (
                 <button
                   onClick={handleReset}
-                  className="mt-4 text-xs font-semibold text-emerald-primary/60 hover:text-emerald-primary flex items-center gap-1 transition-colors cursor-pointer"
+                  className="mt-4 text-xs font-semibold text-emerald-primary/60 hover:text-emerald-primary flex items-center gap-1 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary rounded"
+                  aria-label="Reset all calculator inputs"
                 >
                   <RotateCcw className="w-3 h-3" /> Reset Calculator
                 </button>

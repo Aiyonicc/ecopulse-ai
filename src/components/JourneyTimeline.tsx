@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Clock, ShieldAlert, Sparkles, CheckCircle2, ChevronRight, Activity } from "lucide-react";
+import { Clock, ShieldAlert, Sparkles, Activity } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface Milestone {
@@ -168,9 +168,8 @@ export default function JourneyTimeline() {
                 </div>
               </div>
 
-              {/* Motivation quote */}
               <p className="text-[11px] text-gray-500 text-center mt-6 leading-relaxed">
-                "We do not inherit the Earth from our ancestors, we borrow it from our children."
+                &ldquo;We do not inherit the Earth from our ancestors, we borrow it from our children.&rdquo;
               </p>
             </div>
           </div>

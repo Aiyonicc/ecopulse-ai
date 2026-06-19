@@ -150,7 +150,7 @@ export default function ImpactVisualizer() {
             Impact Visualizer
           </h2>
           <p className="text-gray-400 text-sm max-w-lg mx-auto">
-            Numbers alone don't build connections. Review these concrete physical comparisons of your cumulative emissions.
+            Numbers alone don&apos;t build connections. Review these concrete physical comparisons of your cumulative emissions.
           </p>
         </div>
 

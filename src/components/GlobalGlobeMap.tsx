@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import EarthCanvas from "./EarthCanvas";
-import { Globe, ShieldAlert, Award, Compass, Wind } from "lucide-react";
+import { Globe, Compass, Wind, Award } from "lucide-react";
 
 interface RegionStat {
   name: string;

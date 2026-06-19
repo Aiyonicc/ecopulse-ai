@@ -14,8 +14,7 @@ import JourneyTimeline from "@/components/JourneyTimeline";
 import ImpactVisualizer from "@/components/ImpactVisualizer";
 import GlobalGlobeMap from "@/components/GlobalGlobeMap";
 import CommunityStories from "@/components/CommunityStories";
-import { ArrowRight, Leaf, Shield, Globe } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
@@ -118,7 +117,7 @@ export default function Home() {
               <span className="bg-gradient-to-r from-emerald-primary via-neon-green to-teal-primary bg-clip-text text-transparent">
                 Footprint
               </span>
-              .<br />Let's Make Yours Beautiful.
+              .<br />Let&apos;s Make Yours Beautiful.
             </h1>
 
             {/* Brief */}

@@ -21,9 +21,6 @@ export default function EarthCanvas({ score = 45, interactiveMode = false }: Ear
   const [hoveredPoint, setHoveredPoint] = useState<string | null>(null);
   
   // Animation states
-  const rotationAngle = useRef(0);
-  const mouseX = useRef(0);
-  const mouseY = useRef(0);
   const targetRotationX = useRef(0);
   const targetRotationY = useRef(0);
   const currentRotationX = useRef(0);
@@ -140,12 +137,12 @@ export default function EarthCanvas({ score = 45, interactiveMode = false }: Ear
       // Project and Sort Points by Z depth so we render background dots first
       const projected = points.current.map((pt) => {
         // Rotate Y
-        let x1 = pt.x * cosY - pt.z * sinY;
-        let z1 = pt.x * sinY + pt.z * cosY;
+        const x1 = pt.x * cosY - pt.z * sinY;
+        const z1 = pt.x * sinY + pt.z * cosY;
 
         // Rotate X
-        let y2 = pt.y * cosX - z1 * sinX;
-        let z2 = pt.y * sinX + z1 * cosX;
+        const y2 = pt.y * cosX - z1 * sinX;
+        const z2 = pt.y * sinX + z1 * cosX;
 
         // Perspective projection
         const dist = 2.5;
@@ -346,7 +343,12 @@ export default function EarthCanvas({ score = 45, interactiveMode = false }: Ear
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
-      <canvas ref={canvasRef} className="block w-full h-full" />
+      <canvas 
+        ref={canvasRef} 
+        className="block w-full h-full" 
+        role="img"
+        aria-label="Interactive 3D particle globe representing Earth's carbon score and regional renewable energy intensity."
+      />
     </div>
   );
 }

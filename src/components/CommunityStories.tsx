@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MessageSquare, Heart, Quote, Star } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 
 interface Story {
   name: string;
@@ -85,7 +85,7 @@ export default function CommunityStories() {
                 </div>
 
                 <p className="text-xs text-gray-300 italic leading-relaxed mb-6 relative z-10">
-                  "{s.quote}"
+                  &ldquo;{s.quote}&rdquo;
                 </p>
               </div>
 

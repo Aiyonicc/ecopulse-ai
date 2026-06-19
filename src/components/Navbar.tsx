@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Leaf, Menu, X, Sun, Moon, User, Award } from "lucide-react";
+import { Leaf, Menu, X, Sun, Moon, Award } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface NavbarProps {
@@ -110,8 +110,9 @@ export default function Navbar({ activeSection, setActiveSection, userStats }: N
             {/* Dark Mode Toggle */}
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition-all cursor-pointer"
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
               title="Toggle theme"
+              aria-label="Toggle light/dark theme"
             >
               {isDarkMode ? <Sun className="w-5 h-5 text-yellow-400 animate-spin-slow" /> : <Moon className="w-5 h-5" />}
             </button>
@@ -135,7 +136,9 @@ export default function Navbar({ activeSection, setActiveSection, userStats }: N
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex lg:hidden w-10 h-10 rounded-xl items-center justify-center bg-white/5 border border-white/10 text-white cursor-pointer"
+            className="flex lg:hidden w-10 h-10 rounded-xl items-center justify-center bg-white/5 border border-white/10 text-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -190,7 +193,8 @@ export default function Navbar({ activeSection, setActiveSection, userStats }: N
                 </div>
                 <button
                   onClick={() => setIsDarkMode(!isDarkMode)}
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 border border-white/10 text-gray-300"
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 border border-white/10 text-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
+                  aria-label="Toggle light/dark theme"
                 >
                   {isDarkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5" />}
                 </button>

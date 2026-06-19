@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Sparkles, Send, User, Bot, HelpCircle, Leaf, Zap, ShieldCheck } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
   sender: "user" | "bot";
@@ -147,7 +146,7 @@ export default function AICoach() {
                     <button
                       key={q}
                       onClick={() => handleSendMessage(q)}
-                      className="w-full text-left p-3 rounded-xl bg-white/3 hover:bg-white/8 border border-white/5 hover:border-emerald-primary/20 text-xs font-medium text-gray-300 hover:text-white transition-all cursor-pointer"
+                      className="w-full text-left p-3 rounded-xl bg-white/3 hover:bg-white/8 border border-white/5 hover:border-emerald-primary/20 text-xs font-medium text-gray-300 hover:text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
                     >
                       {q}
                     </button>
@@ -191,7 +190,12 @@ export default function AICoach() {
               </div>
 
               {/* Chat Messages */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin">
+              <div 
+                className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin"
+                role="log"
+                aria-live="polite"
+                aria-label="AI Coach chat messages history"
+              >
                 {messages.map((msg, index) => {
                   const isBot = msg.sender === "bot";
                   return (
@@ -298,11 +302,13 @@ export default function AICoach() {
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     placeholder="Ask about reducing emissions (e.g. diet swaps, flight offsets)..."
-                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-primary/60 transition-all duration-300"
+                    aria-label="Ask a question about reducing emissions"
+                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-primary/60 focus-visible:ring-2 focus-visible:ring-emerald-primary transition-all duration-300"
                   />
                   <button
                     type="submit"
-                    className="px-5 rounded-xl bg-gradient-to-r from-emerald-primary to-teal-primary text-forest-dark font-semibold hover:brightness-110 flex items-center justify-center transition-all cursor-pointer"
+                    aria-label="Send message to AI Coach"
+                    className="px-5 rounded-xl bg-gradient-to-r from-emerald-primary to-teal-primary text-forest-dark font-semibold hover:brightness-110 flex items-center justify-center transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-primary"
                   >
                     <Send className="w-4 h-4" />
                   </button>
